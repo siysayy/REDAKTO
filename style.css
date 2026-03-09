@@ -1,0 +1,252 @@
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family: Georgia, 'Times New Roman', serif;
+}
+
+body{
+background:#0f2137;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+}
+
+/* CONTAINER */
+.container{
+width:90%;
+max-width:1400px;
+background:#f3efe9;
+border-radius:20px;
+padding:40px;
+text-align:center;
+}
+
+/* TITLE */
+.title h1{
+font-size:80px;
+font-weight:bold;
+margin:10px 0;
+}
+
+.line{
+height:4px;
+background:black;
+margin:10px 0;
+}
+
+.line-light{
+height:10px;
+background:#dcdcdc;
+border-radius:10px;
+margin-bottom:35px;
+}
+
+/* CARD */
+.card{
+background:#d9d9d9;
+padding:40px 60px;
+border-radius:20px;
+width:100%;
+}
+
+/* TITLE CARD */
+.card h2{
+font-size:42px;
+margin-bottom:5px;
+}
+
+.card h3{
+font-size:24px;
+margin-bottom:10px;
+}
+
+/* TAGLINE LINE */
+.tagline-line{
+height:4px;
+background:black;
+width:100%;
+margin:15px 0 25px 0;
+}
+
+/* TEXT */
+.card p{
+font-size:18px;
+line-height:1.7;
+text-align:left;
+margin-bottom:15px;
+}
+
+/* BUTTON AREA */
+.button-area{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:25px;
+margin-top:30px;
+}
+
+/* SIDE LINES */
+.button-line{
+height:4px;
+background:black;
+width:35%;
+}
+
+/* BUTTON */
+.start-btn{
+background:#cfcfcf;
+border:none;
+padding:15px 40px;
+border-radius:12px;
+font-size:20px;
+font-weight:bold;
+cursor:pointer;
+transition:0.3s;
+}
+
+.start-btn:hover{
+background:#bdbdbd;
+transform:scale(1.05);
+}
+
+.subtitle{
+font-size:28px;
+margin-top:5px;
+}
+
+.editor-section{
+margin-top:30px;
+}
+
+.editor-header{
+display:flex;
+justify-content:space-between;
+align-items:flex-start;
+margin-bottom:20px;
+}
+
+.editor-header div{
+margin:0;
+padding:0;
+}
+
+.editor-header h2{
+margin:0;
+padding:0;
+font-size:34px;
+text-align:left;
+}
+
+.editor-header p{
+margin:0;
+padding:0;
+margin-top:4px;
+color:#555;
+text-align:left;
+}
+
+/* NEWS TYPE BUTTON */
+
+.news-button{
+background:#d6d6d6;
+border:none;
+padding:12px 20px;
+border-radius:20px;
+font-weight:bold;
+cursor:pointer;
+}
+
+/* NEWS LIST */
+
+.news-list{
+display:none;
+background:#efefef;
+padding:20px;
+border-radius:10px;
+margin-bottom:20px;
+max-height:200px;
+overflow-y:auto;
+}
+
+.news-list div{
+padding:6px;
+cursor:pointer;
+}
+
+.news-list div:hover{
+background:#ddd;
+}
+
+/* TEXTAREA */
+
+.news-input{
+width:100%;
+height:200px;
+border:none;
+border-radius:20px;
+padding:20px;
+font-size:16px;
+background:#cfcfcf;
+resize:none;
+}
+
+/* BUTTON */
+
+.button-center{
+display:flex;
+justify-content:center;
+margin-top:20px;
+}
+
+.ai-btn{
+background:#d2d2d2;
+border:none;
+padding:15px 40px;
+border-radius:12px;
+font-weight:bold;
+font-size:18px;
+cursor:pointer;
+}
+
+/* PROCESSING */
+
+.processing-card{
+display:none;
+
+width:400px;
+margin:30px auto;
+
+padding:20px;
+
+background:rgba(255,255,255,0.5);
+border-radius:12px;
+
+text-align:center;
+font-size:24px;
+font-weight:bold;
+
+backdrop-filter: blur(4px);
+}
+
+/*AI RECOMENDETAION PAGE*/
+.ai-result{
+display:none;
+
+margin-top:30px;
+padding:30px;
+
+background:#d9d9d9;
+border-radius:15px;
+
+text-align:left;
+}
+
+.ai-result h3{
+margin-bottom:10px;
+}
+
+.ai-result p{
+line-height:1.6;
+}
