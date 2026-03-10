@@ -1,15 +1,14 @@
 // File: /api/recommend.js
 // This is a Vercel Serverless Function that acts as a secure backend.
 
-// Import Node.js modules to read files from the server's file system
-import path from 'path';
-import { promises as fs } from 'fs';
+    
+import { createClient } from '@supabase/supabase-js';
 
-/**
- * Handles the incoming request from the frontend.
- * @param {object} req - The request object, containing the user's prompt.
- * @param {object} res - The response object, used to send the result back to the frontend.
- */
+const supabaseUrl = process.env._APP_SUPABASE_URL;
+const supabaseKey = process.env._APP_SUPABASE_ANON_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+
 export default async function handler(req, res) {
     // 1. Security Check: Only allow POST requests.
     if (req.method !== 'POST') {
@@ -17,28 +16,34 @@ export default async function handler(req, res) {
         return res.status(405).end(`Method ${req.method} Not Allowed`);
     }
 
-    // 2. Securely get the Groq API key from Vercel's environment variables.
-    const apiKey = process.env.GROQ_API_KEY;
+    // 2. Securely get the Supabase API key from Vercel's environment variables.
+    const apiKey = process.env._APP_SUPABASE_ANON_KEY;
     if (!apiKey) {
-        return res.status(500).json({ error: { message: "API key is not configured on the server." } });
+        return res.status(500).supabase({ error: { message: "API key is not configured on the server." } });
     }
 
     try {
-        // --- Step 3: Read the full Jamu data from the server's file system ---
-        const jsonDirectory = path.join(process.cwd(), 'data');
-        const fileContents = await fs.readFile(path.join(jsonDirectory, 'jamu.json'), 'utf8');
-        const jamuData = JSON.parse(fileContents);
+        // --- Step 3: Read the full berita data from the server's file system ---
+        const { data, error } = await supabase
+            .from('berita') //ini buat panggil nama tabel Redakto di Supabase
+            .select('*'); //ini buat ambil semua data dari tabel berita di Supabase 
 
-        // --- Step 4: Get user prompt and validate ---
-        const { userPrompt } = req.body;
-        if (!userPrompt) {
-            return res.status(400).json({ error: { message: "Missing userPrompt in the request body." } });
-        }
+            if (error) {
+                console.log("Error appeared while fetching data from Supabase:", error.message);
+            }
+            else {
+                console.log("Data fetched successfully from Supabase:", data.length, "records");
+            }
+
         
+         // --- Step 4: Get user prompt and validate ---
         // --- OPTIMIZATION: Create a lightweight version of the data for the AI ---
-        const lightweightBeritaData = beritaData.map(item => {
-            const { Kategori, Judul, Berita } = item;
-            return { Kategori, Judul, Berita };
+        const lightweightBeritaData = data.map(item => {
+            return {
+                news_category: item.news_kateg,
+                title: item.news_title,
+                content: item.news_content
+            }
         });
 
         // --- Step 5: Construct the detailed system prompt using the lightweight data ---
@@ -49,7 +54,7 @@ export default async function handler(req, res) {
             You also must correct the typographical and grammatical errors in the user's raw news according to the correct Indonesian language rules. You will make sure that the news is well-structured and easy to read. You will also provide a conversational and engaging paragraph at the beginning of your response to address the user's raw news, before giving the recommendations for the rewritten news.
             # CONTEXT
             You will receive a user's raw news and a Supabase database of example of many news articles. The database contains the news' name category, news title, and news content. You will use this database to understand the different writing styles and topics, and to help you rewrite the user's raw news in a way that is suitable for the desired topic and writing style.
-            Database:
+            and the following database of news examples that I provided below. Each news article in the database has a news category, title, and content. You will analyze the news category, title, and content to understand the writing style and topic of each news article. You will use this understanding to rewrite the user's raw news in a way that is suitable for the desired topic and writing style:
             ${JSON.stringify(lightweightBeritaData, null, 2)} 
 
             # TASK
