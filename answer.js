@@ -40,7 +40,7 @@ export default async function handler(req, res) {
         // --- OPTIMIZATION: Create a lightweight version of the data for the AI ---
         const lightweightBeritaData = data.map(item => {
             return {
-                news_category: item.news_kateg,
+                category: item.news_kateg,
                 title: item.news_title,
                 content: item.news_content
             }
@@ -66,15 +66,15 @@ export default async function handler(req, res) {
 
             # OUTPUT FORMAT
             - Your response MUST be paragraphs of text.
-            - The Supabase object must have exactly four keys: "answer", "news category", "title", and "content".
+            - The JSON object must have exactly four keys: "answer", "category", "title", and "content".
             - The answer must be started with a conversational and engaging paragraph that addresses the user's raw news before giving the recommendations for the rewritten news. This paragraph should be written in a warm and conversational tone, as if you are explaining the news to a friend, for example, "Wah, berita kausistika yang kamu buat ini menarik banget! Aku bisa bantu kamu untuk menyusunnya jadi lebih rapi dan enak dibaca. Yuk, kita buat contoh berita yang cocok dengan topik dan gaya penulisan yang kamu inginkan, biar kita bisa buat berita kamu jadi siap rilis!"
-            - "news category": A string containing the news category of the rewritten news article, which should be the same as the news category of the most similar news article you found in the database. If no similar news articles are found, this should be an empty string.
+            - "category": A string containing the category of the rewritten news article, which should be the same as the category of the most similar news article you found in the database. If no similar news articles are found, this should be an empty string.
             - "title": A string containing the title of the rewritten news article.
             - "content": A string containing the rewritten news content of the raw news that you have rewritten.
             - Example for a successful match:
               {
                 "answer": "Wah, berita kausistika yang kamu buat ini menarik banget! Aku bisa bantu kamu untuk menyusunnya jadi lebih rapi dan enak dibaca. Yuk, kita buat contoh berita yang cocok dengan topik dan gaya penulisan yang kamu inginkan, biar kita bisa buat berita kamu jadi siap rilis!",
-                "news category": "METROPOLIS",
+                "category": "METROPOLIS",
                 "title": "Bubarkan  Kerumunan dengan Lempar Batu atau Botol",
                 "content": "Keresahan Warga yang Terganggu Balapan Liar 
 
@@ -165,16 +165,19 @@ Balap liar tidak hanya mengganggu ketertiban dan kenyamanan melainkan juga berpo
         }
 
         // --- Step 7: Process the AI response and send results to the client ---
-        const aiResponse = JSON.parse(responseText);
+        const aiResponse = JSON.parse(responseText); //Kayak ngebuka paket jawaban yang dikirim AI dari Groq
 
-        if (!aiResponse || typeof aiResponse.answer !== 'string' || !Array.isArray(aiResponse.recommendations)) {
-            throw new Error("AI response did not follow the required JSON format.");
-        }
+        if (!aiResponse || !aiResponse.answer || !aiResponse.category || !aiResponse.title || !aiResponse.content) {
+            throw new Error("AI response did not follow the required JSON format."); //Ngecek apakah isi paket ato jawaban AI sesai dengan format yang diminta, kalo gak sesuai, bakal error
+        } //! = tidak. Jadi kalo isi jawabanny gak ada aiResponse, atau gak punya key answer, atau gak punya key category, atau gak punya key title, atau gak punya key content, maka bakal error.
 
-        const recommendedNames = aiResponse.recommendations;
+        res.status(200).json({ //Kalo isi paket jawaban AI sesuai dnegan format, jawabannya bakal dikirim ke frontend
+            pembuka: aiResponse.answer,
+            category: aiResponse.category,
+            title: aiResponse.title,
+            content: aiResponse.content //tapi jawaban yg dikirim dibungkus lagi sama label baru (pembuka, category, title, content) biar lebih jelas dan gampang diproses di frontend dan lebih gampang saat dipanggil oleh js ke frontend.
+        });
         
-        // Filter the ORIGINAL full jamuData to find the complete objects for the recommended items
-        const foundItems = jamuData.filter(item => recommendedNames.includes(item.Nama));
 
         // Send a new object containing both the AI's conversational answer and the FULL item data
         res.status(200).json({
@@ -182,7 +185,7 @@ Balap liar tidak hanya mengganggu ketertiban dan kenyamanan melainkan juga berpo
             recommendedItems: foundItems
         });
 
-    } catch (error) {
+    } catch (error) { //ini buat nangkep error yang terjadi di serverless function ini, misalnya error saat fetch data dari Supabase, error saat request ke Groq API, atau error saat parsing response dari Groq API. Kalo ada error, bakal ditangkap disini dan dikirim ke frontend dengan status 500 (Internal Server Error) dan pesan error yang jelas.
         console.error("Error in serverless function:", error);
         res.status(500).json({ error: { message: `An internal server error occurred: ${error.message}` } });
     }
