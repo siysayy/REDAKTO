@@ -19,13 +19,13 @@ export default async function handler(req, res) {
     // 2. Securely get the Supabase API key from Vercel's environment variables.
     const apiKey = process.env._APP_SUPABASE_ANON_KEY;
     if (!apiKey) {
-        return res.status(500).supabase({ error: { message: "API key is not configured on the server." } });
+        return res.status(500).json({ error: { message: "API key is not configured on the server." } });
     }
 
     try {
         // --- Step 3: Read the full berita data from the server's file system ---
         const { data, error } = await supabase
-            .from('berita') //ini buat panggil nama tabel Redakto di Supabase
+            .from('redakto') //ini buat panggil nama tabel Redakto di Supabase
             .select('*'); //ini buat ambil semua data dari tabel berita di Supabase 
 
             if (error) {
@@ -38,6 +38,7 @@ export default async function handler(req, res) {
         
          // --- Step 4: Get user prompt and validate ---
         // --- OPTIMIZATION: Create a lightweight version of the data for the AI ---
+        const { userPrompt } = req.body;
         const lightweightBeritaData = data.map(item => {
             return {
                 category: item.news_kateg,
@@ -179,11 +180,7 @@ Balap liar tidak hanya mengganggu ketertiban dan kenyamanan melainkan juga berpo
         });
         
 
-        // Send a new object containing both the AI's conversational answer and the FULL item data
-        res.status(200).json({
-            aiAnswer: aiResponse.answer,
-            recommendedItems: foundItems
-        });
+
 
     } catch (error) { //ini buat nangkep error yang terjadi di serverless function ini, misalnya error saat fetch data dari Supabase, error saat request ke Groq API, atau error saat parsing response dari Groq API. Kalo ada error, bakal ditangkap disini dan dikirim ke frontend dengan status 500 (Internal Server Error) dan pesan error yang jelas.
         console.error("Error in serverless function:", error);
