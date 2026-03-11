@@ -1,10 +1,8 @@
-// File: /api/recommend.js
-// This is a Vercel Serverless Function that acts as a secure backend.
 
     
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env._APP_SUPABASE_URL;
+const supabaseUrl = process.env._REACT_APP_SUPABASE_URL;
 const supabaseKey = process.env._APP_SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
@@ -17,13 +15,13 @@ export default async function handler(req, res) {
     }
 
     // 2. Securely get the Supabase API key from Vercel's environment variables.
-    const apiKey = process.env._APP_SUPABASE_ANON_KEY;
+    const apiKey = process.env._REACT_APP_SUPABASE_ANON_KEY;
     if (!apiKey) {
         return res.status(500).json({ error: { message: "API key is not configured on the server." } });
     }
 
     try {
-        // --- Step 3: Read the full berita data from the server's file system ---
+        // --- Step 3: Read the full  berita data from the server's file system ---
         const { data, error } = await supabase
             .from('redakto') //ini buat panggil nama tabel Redakto di Supabase
             .select('*'); //ini buat ambil semua data dari tabel berita di Supabase 
