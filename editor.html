@@ -1,107 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>REDAKTO - Jawa Pos</title>
-
-<link rel="stylesheet" href="style.css">
-<script src="script.js" defer></script>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REDAKTO - Jawa Pos Editor</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/script.js" defer></script>
 </head>
-
 <body>
 
 <div class="container">
+    <div class="title">
+        <div class="line"></div>
+        <h1>REDAKTO</h1>
+        <h2 class="subtitle">The Smart Way to Shape the News</h2>
+        <div class="tagline-line"></div>
+        <div class="line-light"></div>
+    </div>
 
-<div class="title">
+    <div class="editor-section">
+        <div class="editor-header">
+            <div>
+                <h2>Shape Your Story!</h2>
+                <p>Share your draft, we'll adjust your writing to match its style</p>
+            </div>
+            <button class="news-button" id="newsBtn">
+                ▼ Choose News Type
+            </button>
+        </div>
 
-<div class="line"></div>
+        <!-- NEWS TYPE LIST -->
+        <div class="news-list" id="newsList">
+            <div>City Night</div>
+            <div>Art Party N Life</div>
+            <div>South Metro Sidoarjo</div>
+            <div>Modern West Gersik</div>
+            <div>Politik dan Pemerintahan</div>
+            <div>South Metro</div>
+            <div>Modern West</div>
+            <div>North Heritage</div>
+            <div>East Beach</div>
+            <div>Kasuistika Kota</div>
+            <div>Metropolis</div>
+            <div>Nasional</div>
+            <div>Show Selebriti</div>
+            <div>Total Sport</div>
+            <div>Liga Indonesia</div>
+            <div>Sportaiment</div>
+            <div>Kabinet Merah Putih</div>
+            <div>Jawa Timur</div>
+            <div>Internasional</div>
+            <div>Finansial</div>
+            <div>Opini</div>
+            <div>Ekonomi Bisnis</div>
+            <div>Berita Utama</div>
+        </div>
 
-<h1>REDAKTO</h1>
+        <textarea class="news-input" placeholder="Type your news draft here..."></textarea>
 
-<h2 class="subtitle">The Smart Way to Shape the News</h2>
+        <div class="button-center">
+            <button class="ai-btn" id="aiBtn">
+                GET AI RECOMMENDATIONS
+            </button>
+        </div>
 
-<div class="tagline-line"></div>
+        <div class="processing-card" id="processingCard">
+            Processing your request...
+        </div>
 
-<div class="line-light"></div>
-
+        <div class="ai-result" id="aiResult">
+            <h3>AI Recommendation</h3>
+            <p>
+                Your AI recommendation will appear here. This section will show
+                suggestions, sentence improvements, or style corrections based on
+                the selected news category.
+            </p>
+        </div>
+    </div>
 </div>
 
-
-<div class="editor-section">
-
-<div class="editor-header">
-
-<div>
-<h2>Shape Your Story !</h2>
-<p>Share your draft, we'll adjust your writing to match its style</p>
-</div>
-
-<button class="news-button" id="newsBtn">
-▼ Choose News Type
-</button>
-
-</div>
-
-
-<!-- NEWS TYPE LIST -->
-<div class="news-list" id="newsList">
-
-<div>City Night</div>
-<div>Art Party N Life</div>
-<div>South Metro Sidoarjo</div>
-<div>Modern West Gersik</div>
-<div>Politik dan Pemerintahan</div>
-<div>South Metro</div>
-<div>Modern West</div>
-<div>North Heritage</div>
-<div>East Beach</div>
-<div>Kasuistika Kota</div>
-<div>Metropolis</div>
-<div>Nasional</div>
-<div>Show Selebriti</div>
-<div>Total Sport</div>
-<div>Liga Indonesia</div>
-<div>Sportaiment</div>
-<div>Kabinet Merah Putih</div>
-<div>Jawa Timur</div>
-<div>Internasional</div>
-<div>Finansial</div>
-<div>Opini</div>
-<div>Ekonomi Bisnis</div>
-<div>Berita Utama</div>
-
-</div>
-
-
-<textarea class="news-input" placeholder="type here.."></textarea>
-
-
-<div class="button-center">
-
-<button class="ai-btn" id="aiBtn">
-GET AI RECOMENDATIONS
-</button>
-
-</div>
-
-
-<div class="processing-card" id="processingCard">
-Processing...
-</div>
-
-<div class="ai-result" id="aiResult">
-
-<h3>AI Recommendation</h3>
-
-<p>
-Your AI recommendation will appear here. This section will show
-suggestions, sentence improvements, or style corrections based on
-the selected news category.
-</p>
-
-</div>
 </body>
 </html>
