@@ -2,12 +2,12 @@
     
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env._REACT_APP_SUPABASE_URL;
-const supabaseKey = process.env._APP_SUPABASE_ANON_KEY;
+const supabaseUrl = process.env.APP_SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 
-export default async function handler(req, res) {
+export default async function handler(req, res) {   
     // 1. Security Check: Only allow POST requests.
     if (req.method !== 'POST') {
         res.setHeader('Allow', ['POST']);
@@ -15,7 +15,7 @@ export default async function handler(req, res) {
     }
 
     // 2. Securely get the Supabase API key from Vercel's environment variables.
-    const apiKey = process.env._REACT_APP_SUPABASE_ANON_KEY;
+    const apiKey = process.env.GROQ_API_KEY;
     if (!apiKey) {
         return res.status(500).json({ error: { message: "API key is not configured on the server." } });
     }
