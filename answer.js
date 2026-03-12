@@ -24,7 +24,8 @@ export default async function handler(req, res) {
         // --- Step 3: Read the full  berita data from the server's file system ---
         const { data, error } = await supabase
             .from('redakto') //ini buat panggil nama tabel Redakto di Supabase
-            .select('*'); //ini buat ambil semua data dari tabel berita di Supabase 
+            .select('*') //ini buat ambil semua data dari tabel berita di Supabase 
+            .limit(25); //ini buat batasi jumlah data yang diambil dari Supabase, misalnya 1000 data pertama, biar gak terlalu banyak dan berat saat diproses di serverless function ini. Kamu bisa sesuaikan limit ini sesuai kebutuhan dan kapasitas serverless function kita.
 
             if (error) {
                 console.log("Error appeared while fetching data from Supabase:", error.message);
@@ -75,27 +76,7 @@ export default async function handler(req, res) {
                 "answer": "Wah, berita kausistika yang kamu buat ini menarik banget! Aku bisa bantu kamu untuk menyusunnya jadi lebih rapi dan enak dibaca. Yuk, kita buat contoh berita yang cocok dengan topik dan gaya penulisan yang kamu inginkan, biar kita bisa buat berita kamu jadi siap rilis!",
                 "category": "METROPOLIS",
                 "title": "Bubarkan  Kerumunan dengan Lempar Batu atau Botol",
-                "content": "Keresahan Warga yang Terganggu Balapan Liar 
-
-Balap liar tiap malam bikin resah masyarakat. Warga tak hanya mengandalkan aparat untuk membubarkan kerumunan. Mereka punyac ara sendiri menjaga wilayahnya agar bebas dariba lap liar.
-
-Wiwit, warga Kelurahan Tenggilis Mejoyo, kerap mengusir anakanak dan pemuda yang terlibat balap liar di Jalan Panjang Jiwo. Mereka seringkali menutup jalan itu dengan sepeda motor. Lampu merah dijadikan garis start sekaligus finis. Warga terganggu dengan suara bising motor dan kehadiran mereka."
-
-Wiwit bersama warga lainnya membubarkan gerombolan balap liar dengan melempar batu sampai botol air minum.
-
-Karena massa cukup banyak, dia takut ada maksud lain seperti merampas barang atau tindakan kriminal lain. "Tak balang batu, kadang botol ya seadanya biar bubar pokoknya," terang Wiwit kemarin (21/12).
-
-Seluruh pintu masuk perkampungan juga ditutup. Hanya ada satu pintu utama yang dibuka lebar. Itu pun dijaga warga. Pagar masuk kampung ditinggikan. "Mereka itu di jalanan pun berani menghadang pengendara. Makanya akhirnya kami usir," tuturnya.
-
-Ahmad Samuji, warga Dukuh Menanggal mengungkapkan, kerap melihat anak usia SMP dan SMA balap liar di Jalan Ahmad Yani tak jauh dari mal. Biasanya mereka terlihat bergerombol sekitar pukul 00.30 WIB. Dia yang kerap lewat pada jam tersebut sangat terganggu. "Ya jam segitu kan jalanan relatif sepi. Biasanya mereka kejarkejaran sama polisi patroli," tuturnya.
-
-Suprapto, warga Kelurahan Panjang Jiwo, menyampaikan, setiap Jumat dan Sabtu tengah malam selalu ada balap liar. Seperti di Jalan Jagir, Jalan Panjang Jiwo, dan Jalan Prapen. Warga yang berdagang dan baru pulang dari Pasar Mangga Dua takut di sepanjang jalan tersebut. Pedagang lebih banyak minggir saat ada balapan. "Mereka pilih kasih jalan daripada terjadi apaapa," ucapnya.
-
-Ada Korban Jiwa
-
-Balap liar tidak hanya mengganggu ketertiban dan kenyamanan melainkan juga berpotensi menyebabkan kecelakaan hingga korban jiwa. Achmad Dzaky. Warga Simogunung Barat Tol, hingga kini masih dikepung duka setelah meninggalnya sang ibunda, Shinta Iryani, pada awal Januari. Shinda diduga menjadi korban tabrakan kelompok balap liar di Jalan Diponegoro.
-
-"Waktu itu ibu lewat di celah-celah kerumunan balap liar. Sudah menepi ke sisi kiri untuk menghindar gerombolan," ungkap Dzaky, pada Jawa Pos kemarin. Tiga penabrak sang ibu hingga meninggal tak diketahui keberadaannya sampai sekarang.(ida/leh/jun)"
+                "content": the rewritten news content that you have rewritten
                 ]
               }
             - If  the user query is none about news or articles, for example, if the user says something like, "Apa itu hukum Archimedes?," or another question regarding scientific concepts or other topics none related to news or articles, the response should acknowledge the question but indicate that the AI cannot provide a recommendation based on the information given, and encourage the user to provide more news-related details .
